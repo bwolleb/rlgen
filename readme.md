@@ -1,26 +1,27 @@
 # rlgen
-A non-WYSIWYG, customizable, highly sugary syntax, document generator inspired by [noWord](https://github.com/mmuellersk/noWord) using reportlab as backend processor.
+A non-WYSIWYG, customizable, highly sugary syntax, document generator inspired by [noWord](https://github.com/mmuellersk/noWord) (from which certain portions of code are taken) using reportlab as backend processor.
 
 # Concept
-Similarly to a LaTeX document, the engine uses plain text input instructions and generate a consistent PDF document. This allows to:
+Similarly to a LaTeX document, the engine uses plain text input instructions and generates a consistent PDF document. This allows to:
 
 - Use the generator in a headless environment / scripts
 - Easily keep track of the input files with versioning tools as they are structured plain text (git-able, commits, branches, pull-requests, etc)
 - Easily split the document in several input files and `include` them in a flexible way to keep the document organized and clean
+- Define include-able custom set of templates and styles that can be used in several documents, keeping a consistent look for all the documentation
 
 The inputs to provide to the engine is a list of so-called `blocks`, which are simple key-value maps (python dicts). Each one has a `type` which will be recognized and processed by a [module](core/modules) and can archieve the following purposes:
 
 - structural operations: configure engine, load modules, define page layouts, define font styles, ...
 - actual document content: insert titles, text, tables, lists, images, ...
 
-A set of templates is provided that defines the most common layouts and styles so that it is easy to create a simple document.
+A set of [templates](core/modules/Template/templates) is provided that define the most common layouts and styles so that it is easy to create a simple document.
 
 # Build process
 The build process is done in two stages:
 
 The "build" time when the engine processes a list of blocks using the available [modules](core/modules) and transforms them into reportlab blocks, called flowable objects.
 
-The "render" time when the reportlab engine uses the flowable objects and generates the final PDF document. This is usually done several times so that the indexing items, such as the table of content, is up to date with all the document content (like a LaTeX document).
+The "render" time when the reportlab engine uses the flowable objects and generates the final PDF document. This is usually done several times so that the indexing items, such as the table of content, are up to date with all the document content (like a LaTeX document).
 
 # Dependencies
 To use it, you will need the following python packages:
