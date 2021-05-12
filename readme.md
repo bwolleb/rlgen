@@ -87,6 +87,7 @@ Currently, all the following block types can be used:
 - [newpage](core/modules/NewPage): insert a page break, using current page style or a custom one
 - [page](core/modules/PageStyle): define a new page style
 - [pagestyle](core/modules/PageStyle): set initial default page style
+- [paint](core/modules/Painter): draw something directly on canvas in python
 - [resource](core/modules/Resource): load a json or yaml file as resource
 - [space](core/modules/Spacer): insert a space, both horizontal and vertical
 - [table](core/modules/Table): insert a table
