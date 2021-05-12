@@ -1,0 +1,19 @@
+- type: page
+  name: a4_portrait
+  size: A4
+  orientation: portrait
+  frames:
+    - margin_left: 2
+      margin_right: 2
+      margin_top: 2
+      margin_bottom: 2
+
+- type: page
+  name: a4_landscape
+  size: A4
+  orientation: landscape
+  frames:
+    - margin_left: 2
+      margin_right: 2
+      margin_top: 2
+      margin_bottom: 2

@@ -1,0 +1,44 @@
+# Default font for text
+- type: font
+  font: Times-Roman
+  name: default
+  size: 12
+  align: left
+  color: "000000"
+  spaceAfter: 12
+
+# Titles
+- type: font
+  font: Times-Roman
+  name: title1
+  size: 18
+  align: left
+  color: "000000"
+  spaceAfter: 12
+
+- type: font
+  font: Times-Roman
+  name: title2
+  size: 16
+  align: left
+  color: "000000"
+  spaceAfter: 12
+
+- type: font
+  font: Times-Roman
+  name: title3
+  size: 14
+  align: left
+  color: "000000"
+  spaceAfter: 6
+
+- type: titleStyle
+  style: [title1, title2, title3]
+
+# Others
+- type: font
+  font: Times-Roman
+  name: footer
+  size: 10
+  align: center
+  color: "666666"

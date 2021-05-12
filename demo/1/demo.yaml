@@ -1,0 +1,13 @@
+- type: module
+  id: core.modules.Template
+
+- type: template
+  name: std_a4
+
+- type: title
+  numbered: no
+  text: Lorem Ipsum
+
+- type: text
+  content: >
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam convallis ipsum id ante vehicula condimentum. Quisque ac pulvinar felis. Nunc iaculis dictum augue vel vestibulum. Proin ac elit sapien. Sed quis gravida lectus, nec iaculis purus. Mauris sodales varius maximus. Aenean sit amet ante congue, faucibus turpis pellentesque, ultricies tellus.

@@ -1,0 +1,53 @@
+- type: module
+  id: core.modules.FontLoader
+
+- type: module
+  id: core.modules.PageStyle
+
+- type: module
+  id: core.modules.PageCounter
+
+- type: module
+  id: core.modules.Text
+
+- type: module
+  id: core.modules.TextProcessor
+
+- type: module
+  id: core.modules.Decorator
+
+- type: module
+  id: core.modules.NewPage
+  
+- type: module
+  id: core.modules.Spacer
+
+- type: module
+  id: core.modules.Metadata
+
+- type: module
+  id: core.modules.Bookmark
+
+- type: module
+  id: core.modules.TocEntry
+
+- type: module
+  id: core.modules.Title
+  
+- type: module
+  id: core.modules.Toc
+
+- type: module
+  id: core.modules.Resource
+
+- type: module
+  id: core.modules.Image
+
+- type: module
+  id: core.modules.Table
+  
+- type: module
+  id: core.modules.List
+
+- type: module
+  id: core.modules.Line

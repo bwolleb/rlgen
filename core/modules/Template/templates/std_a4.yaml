@@ -1,0 +1,11 @@
+- type: template
+  name: std_modules
+
+- type: template
+  name: layout_a4
+
+- type: template
+  name: std_fonts
+
+- type: template
+  name: std_deco

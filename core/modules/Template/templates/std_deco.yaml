@@ -1,0 +1,21 @@
+- type: decoration
+  expression: pageTemplate == "a4_portrait"
+  items:
+    - type: text
+      content: Page {{data(build/pageNum)}} / {{data(build/pageTot)}}
+      font: footer
+      x: 7
+      y: 0.5
+      width: 7
+      height: 1
+
+- type: decoration
+  expression: pageTemplate == "a4_landscape"
+  items:
+    - type: text
+      content: page {{data(build/pageNum)}} / {{data(build/pageTot)}}
+      font: footer
+      x: 10
+      y: 0.5
+      width: 10
+      height: 1
