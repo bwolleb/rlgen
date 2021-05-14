@@ -99,12 +99,13 @@ Currently, all the following block types can be used:
 - [txt](core/modules/Text): alias for `txt`
 - [textstyle](core/modules/Text): change default font to use from this point
 - [title](core/modules/Title): insert a title
+- [titleFormat](core/module/Title): change title number formatting
+- [titleNum](core/module/Title): change title level number format
 - [titleStyle](core/modules/Title): change the default chapter font styles
 - [tocEntry](core/modules/TocEntry): insert a manual entry in the table of contents
 
 # Todo
 - Add a plot block to insert data charts using matplotlib
-- Allow to customize the title numbering for any level, like having level 0 in roman and the rest in arabic
 - Allow to instanciate multiple module instances and call a specific one in a block
 - Blocks to ease variable/resource manipulation (set, eval, remove, update dict, update list, ...)
 - Moar blocks: square, link area, line, arc, shape, circle, barcode, qr code, ...

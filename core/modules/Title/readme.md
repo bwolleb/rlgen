@@ -10,10 +10,29 @@ Allows to insert a title in the document. Titles are just standard paragraphs wi
 
 Chapter levels begin at 0 and no level can be skipped: you can't insert a title level 0 and a title level 2 skipping level 1, but you can jump from a level x to a lower level at any time (see reportlab documentation for more details).
 
-## Separators
-By default, chapter levels are separated using dots and numbering is separated of the text using ". ", so the resulting displayed text is "1.2.3. My Chapter". Both are configurable as arg of the module:
-- levelSep: "."
-- numberingEnd: ". "
+## Title formatting
+By default, numbered chapters are formatted all levels, using arab numbers separated with dots, separated from the title with a dot and a space:
+
+`[arab t0][levelSep][arab t1][levelSep]...[numberingEnd][title]` which translates to `1.2.3. My Chapter`.
+
+Both `levelSep` and `numberingEnd` are configurable, either as args when the module is loaded, or using the `set` instruction of [ModuleLoader](../ModuleLoader) instruction.
+
+### Custom numbers
+By default, each level is rendered using standard arab numbers, but this can be changed using the `titleNum` block to the following available formatters for any level:
+
+- 1: standard arab format (1, 2, 3), default
+- A: upper alphabetic format (A, B, C, ..., AA, AB)
+- a: lower alphabetic format (a, b, c, ..., aa, ab)
+- Aa: capitalized alphabetic format (A, B, C, ..., Aa, Ab)
+- I: upper roman format (I, II, III, IV, V)
+- i: lower roman format (i, ii, iii, iv, v)
+- Ii: capitalized roman format (I, Ii, Iii, Iv, V)
+
+### Custom format
+For advanced use, the rendering itself can be changed using the `titleFormat` for any level using python format string. The following variables are available:
+
+- current levels: `t0`, `t1`, `t2`, ... `tx` which are rendered according to their current `titleNum` format, arab by default
+- current level: `current` which is rendered according to the current `titleNum` format, arab by default
 
 ## Chapter resource
 The module creates and maintain the `chapters` resource containing the following items:
@@ -35,6 +54,8 @@ Currently, no block allows to manually manipulate the chapter counters, for exam
 - title: insert a title
 - chapter: alias for `title`
 - titleStyle: change the default chapter font styles
+- titleNum: change title level number format
+- titleFormat: change title number formatting
 
 # Usage
 ## Insert a title
@@ -47,7 +68,7 @@ Currently, no block allows to manually manipulate the chapter counters, for exam
 - numbered: boolean to enable/disable numbereing, default is true
 
 ## Assign title styles
-## Args
+### Args
 - style: font style(s) to use for the titles, can be:
   - a string, which is the identifier of an existing font style to use for the specified chapter level
   - a list of strings, where each one is the identifier of an existing font style to use for the corresponding chapter level, this syntax allows to define all styles at once
@@ -55,6 +76,26 @@ Currently, no block allows to manually manipulate the chapter counters, for exam
 
 ### Optional
 - level: specify level to assign the style to, mandatory if the `style` is a string or a dict
+
+## Change title level number format
+### Args
+- num: number formatter to use, can be:
+  - a string, which is the formatter to use for level numbers, applied to the specified `level` if provided, all levels otherwise
+  - a list of strings, where each one is the formatter to use for corresponding levels
+  - `null` which clears all current formatting for all levels
+
+### Optional
+- level: specify level to assign the format to, can only be used if `num` is a string
+
+## Change title number formatting
+### Args
+- format: python format string to use, can be:
+  - a string, which is the formatter to use for level format, applied to the specified `level` if provided, all levels otherwise
+  - a list of strings, where each one is the formatter to use for corresponding levels
+  - `null` which clears all current formatting for all levels
+
+### Optional
+- level: specify level to assign the format to, can only be used if `format` is a string
 
 ## Example
 Insert a simple, level 0 chapter:
@@ -112,8 +153,47 @@ style:
   color: "ff0000"
 ```
 
+Define level 2 number format to capital roman
+```
+type: titleNum
+level: 2
+num: I
+```
+
+Define number format for 4 levels
+```
+type: titleNum
+num: [A, a, "1", I]
+```
+
+Define level 0 format string
+```
+type: titleFormat
+level: 0
+format: "{t0:.2f}: "
+```
+
+Define format string for 3 levels
+```
+type: titleFormat
+format: ["{t0}_", "{t0}_{t1}", "{t0}_{t1}____{t3}"]
+```
+
+Define format for all levels
+```
+type: titleFormat
+format: "__{current}__"
+```
+
 Use the chapter resource system:
 ```
 type: text
 content: So we are now in chapter {{data(chapters/current/fulltext)}} which is the best one!
+```
+
+Reset chapter counters within the document using the [Exec](../Exec) module
+```
+type: exec
+python: |
+  engine.resources["chapters"]["counters"] = []
 ```

@@ -1,5 +1,7 @@
+from collections import defaultdict
 from core.modules import ModuleInterface
 from core import utils
+from .formatters import Formatters
 
 class Title(ModuleInterface):
 	def __init__(self, engine, styles=[], levelSep=".", numberingEnd=". "):
@@ -7,7 +9,14 @@ class Title(ModuleInterface):
 		self.chapterStyles = styles
 		self.levelSep = levelSep
 		self.numberingEnd = numberingEnd
-		self.levelFormatters = {}
+		self.levelFormatters = defaultdict(lambda: Formatters["1"])
+		self.customFormatters = defaultdict(lambda: None)
+		
+		self.mandatoryArgs = {}
+		self.mandatoryArgs["title"] = ["text"]
+		self.mandatoryArgs["titleStyle"] = ["style"]
+		self.mandatoryArgs["titleNum"] = ["num"]
+		self.mandatoryArgs["titleFormat"] = ["format"]
 		
 		chaptersData = {}
 		chaptersData["counters"] = []
@@ -20,15 +29,25 @@ class Title(ModuleInterface):
 		return "core.modules.Title"
 	
 	def handles(self):
-		return ["title", "chapter", "titleStyle"]
+		return ["title", "chapter", "titleStyle", "titleNum", "titleFormat"]
 	
 	def formatLevel(self, level, num):
-		return self.levelFormatters[level](num) if level in self.levelFormatters else str(num)
+		return self.levelFormatters[level](num)
 	
 	def formatLevels(self, levels):
-		formatted = [self.formatLevel(i, levels[i]) for i in range(len(levels))]
-		formatted = list(filter(lambda x: x != "", formatted))
-		return str.join(self.levelSep, formatted)
+		level = len(levels) - 1
+		formatter = self.customFormatters[level]
+		if formatter is not None:
+			lvlDict = {}
+			for i in range(level + 1):
+				lvlDict["t" + str(i)] = self.formatLevel(i, levels[i])
+			lvlDict["current"] = self.formatLevel(len(levels) - 1, levels[-1])
+			return self.customFormatters[level].format(**lvlDict)
+		else:
+			# Default formatting
+			formatted = [str(self.formatLevel(i, levels[i])) for i in range(len(levels))]
+			formatted = list(filter(lambda x: x != "", formatted))
+			return str.join(self.levelSep, formatted)
 	
 	def process(self, block, path):
 		if block["type"] == "title" or block["type"] == "chapter":
@@ -115,4 +134,28 @@ class Title(ModuleInterface):
 					styleName = style["name"]
 					self.engine.fonts[styleName] = newStyle
 					self.chapterStyles[block["level"]] = styleName
+		
+		elif block["type"] == "titleNum":
+			num = block["num"]
+			if "level" in block:
+				self.levelFormatters[block["level"]] = Formatters[num]
+			elif type(num) is list:
+				for i in range(len(num)):
+					self.levelFormatters[i] = Formatters[num[i]]
+			elif type(num) is str:
+				self.levelFormatters = defaultdict(lambda: Formatters[num])
+			elif type(num) is None:
+				self.levelFormatters = defaultdict(lambda: Formatters["1"])
+
+		elif block["type"] == "titleFormat":
+			formatter = block["format"]
+			if "level" in block:
+				self.customFormatters[block["level"]] = formatter
+			elif type(formatter) is list:
+				for i in range(len(formatter)):
+					self.customFormatters[i] = formatter[i]
+			elif type(formatter) is str:
+				self.customFormatters = defaultdict(lambda: formatter)
+			elif formatter is None:
+				self.customFormatters = defaultdict(lambda: None)
 		return []
