@@ -23,13 +23,13 @@ def error(txt):
 	print(txt, file=sys.stderr)
 
 def loadJson(path):
-	f = open(path)
+	f = open(path, encoding="utf8")
 	data = json.load(f)
 	f.close()
 	return data
 
 def loadYaml(path):
-	f = open(path)
+	f = open(path, encoding="utf8")
 	data = yaml.load(f, Loader=yaml.FullLoader)
 	f.close()
 	return data
