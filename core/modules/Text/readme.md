@@ -51,5 +51,5 @@ font:
 Set default font from now on:
 ```
 type: textstyle
-content: myfont3
+name: myfont3
 ```
