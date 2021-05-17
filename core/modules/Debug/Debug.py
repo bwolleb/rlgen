@@ -6,6 +6,7 @@ class Debug(ModuleInterface):
 		super().__init__(engine)
 		self.events = events
 		self.registeredModules = set()
+		engine.beforeBuildCallbacks.append(self.beforeBuild)
 		
 		if "core.modules.ModuleLoader" in engine.modules:
 			loader = engine.modules["core.modules.ModuleLoader"]
@@ -27,6 +28,12 @@ class Debug(ModuleInterface):
 	def afterModule(self, module, block, *args):
 		if "afterProcess" in self.events:
 			print(module.identifier() + " finished processing " + block["type"])
+	
+	def beforeBuild(self, *args):
+		if "showFrames" in self.events:
+			for ps in self.engine.pagestyles:
+				for f in ps.frames:
+					f.showBoundary = 1
 	
 	def identifier(self):
 		return "core.modules.Debug"
