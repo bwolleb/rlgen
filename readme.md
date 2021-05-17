@@ -90,7 +90,7 @@ Currently, all the following block types can be used:
 - [pagestyle](core/modules/PageStyle): set initial default page style
 - [paint](core/modules/Painter): draw something directly on canvas in python
 - [qr](core/modules/QRCode): insert a QR code in the document
-- [resource](core/modules/Resource): load a json or yaml file as resource
+- [resource](core/modules/Resource): load a json, yaml or csv file as resource
 - [space](core/modules/Spacer): insert a space, both horizontal and vertical
 - [table](core/modules/Table): insert a table
 - [template](core/modules/Template): load a predefined template

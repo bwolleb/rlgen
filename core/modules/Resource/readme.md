@@ -12,14 +12,16 @@ args:
   prefix: otherData
 ```
 
+Currently, json, yaml and csv files are supported. All are loaded in UTF-8 (yes, this is the encoding you should use too!). When loading a CSV file, the delimiter is guessed from the first lines, and a list is returned.
+
 ## Block types
-- resource: load a json or yaml file as resource
+- resource: load a json, yaml or csv file as resource
 - data: set provided data as resource
 
 # Usage
 ## Load a data file
 - alias: name of the resource to create
-- path: path to the json or yaml file to load, can be absolute or relative
+- path: path to the json, yaml or csv file to load, can be absolute or relative
 
 ## Set data in place
 - alias: name of the resource to create

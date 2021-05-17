@@ -5,6 +5,7 @@ import yaml
 import hashlib
 import datetime
 import re
+import csv
 
 from reportlab.lib.enums import TA_JUSTIFY, TA_LEFT, TA_RIGHT, TA_CENTER
 from reportlab.lib import colors
@@ -34,6 +35,27 @@ def loadYaml(path):
 	f.close()
 	return data
 
+def guessCsvDelimiter(path):
+	f = open(path, encoding="utf8")
+	firstLine = f.readline()
+	firstLine += f.readline()
+	firstLine += f.readline()
+	firstLine += f.readline()
+	firstLine += f.readline()
+	f.close()
+	
+	delimiters = [";", ","]
+	scores = [len(firstLine.split(delim)) for delim in delimiters]
+	return delimiters[scores.index(max(scores))]
+
+def loadCsv(path):
+	delim = guessCsvDelimiter(path)
+	f = open(path, encoding="utf8")
+	reader = csv.reader(f, delimiter=delim)
+	data = list(reader)
+	f.close()
+	return data
+
 def getExt(filename):
 	name, ext = os.path.splitext(filename)
 	return ext.lower()
@@ -45,6 +67,8 @@ def loadFile(path):
 		return loadJson(path)
 	elif ext == ".yaml":
 		return loadYaml(path)
+	elif ext == ".csv":
+		return loadCsv(path)
 	else:
 		error("Unsupported file type: " + path)
 	return None
