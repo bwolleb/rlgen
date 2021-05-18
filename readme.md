@@ -19,7 +19,7 @@ A set of [templates](core/modules/Template/templates) is provided that define th
 # Build process
 The build process is done in two stages:
 
-The "build" time when the engine processes a list of blocks using the available [modules](core/modules) and transforms them into reportlab blocks, called flowable objects.
+The "build" time when the engine processes a list of blocks using the available [modules](core/modules) and transforms them into reportlab objects, called "flowable" objects. These can be directly processed and rendered by the reportlab mechanism.
 
 The "render" time when the reportlab engine uses the flowable objects and generates the final PDF document. This is usually done several times so that the indexing items, such as the table of content, are up to date with all the document content (like a LaTeX document).
 
@@ -104,9 +104,40 @@ Currently, all the following block types can be used:
 - [titleStyle](core/modules/Title): change the default chapter font styles
 - [tocEntry](core/modules/TocEntry): insert a manual entry in the table of contents
 
+# Resources
+The engine has a special data dict called `resources` which is often references and used by modules. This dict is intended to contain various information that are directly accessible by all modules and within the text and various blocks. For example, it is possible to load a data file like a json or a csv using the [Resource](core/modules/Resource) module and use the data as the rows of a [table](core/modules/Table).
+
+Here is a non exhaustive list of what can be found in the resources:
+
+- data file loaded by the [Resource](core/modules/Resource) module
+- `chapters` dict which contains all chapter information managed by the [Title](core/modules/Title) module
+- `bookmarks` dict which contains bookmarks managed by the [Bookmark](core/modules/Bookmark)
+- `lists` dict which contains list counters managed by the [List](core/modules/List)
+- `loops` dict which contains current loop data while iterating managed by the [Loop](core/modules/Loop)
+- `build` dict which contains information of current build, like current datetime, current page, page count managed by the [PageCounter](core/modules/PageCounter)
+- ...
+
+Here is a non exhaustive list of where the resource dict can be used:
+
+- anywhere in the text using a special markup, processed through [TextProcessor](core/modules/TextProcessor)
+- as rows of a [table](core/modules/Table)
+- as items of a [list](core/modules/List)
+- as items to iterate with a [loop](core/modules/Loop)
+- as data source of modules that exec python snippets ([Condition](core/modules/Condition), [Decorator](core/modules/Decorator), [Condition](core/modules/Exec), [Painter](core/modules/Painter), ...)
+- in any module / callback that receives the engine
+- ...
+
+# Under the hood
+For a more in-depth view of the modules, engine and reportlab tricks, see [here](core.md).
+
+# License
+GNU GPLv3, see [license.md](license.md)
+
 # Todo
 - Add a plot block to insert data charts using matplotlib
 - Allow to instanciate multiple module instances and call a specific one in a block
 - Blocks to ease variable/resource manipulation (set, eval, remove, update dict, update list, ...)
-- Moar blocks: square, link area, line, arc, shape, circle, barcode, qr code, ...
+- Moar blocks: square, link area, line, arc, shape, circle, barcode ...
 - Implement footnotes (currently not available in reportlab)
+- Allow to use resources as data source for Image, QRCode, Metadata
+- Allow to reset pageNum/pageTot within the document
