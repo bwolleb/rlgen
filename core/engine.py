@@ -1,6 +1,7 @@
 import sys
 import os
 
+from core import utils
 from .modules.ModuleLoader import Module as ModuleLoader
 from .rl import DocTemplate, BuildTrigger
 
@@ -33,7 +34,9 @@ class Engine(object):
 				blockHandlerId = self.blockHandlers[blockType]
 				build = self.modules[blockHandlerId].processBlock(block, path)
 			else:
-				print("Warning, No module to handle " + blockType, file=sys.stderr)
+				utils.error("Warning, No module to handle " + blockType)
+		else:
+			utils.error("Warning, ignoring block because no type specified")
 		
 		return build
 

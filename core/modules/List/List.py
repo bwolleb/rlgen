@@ -36,7 +36,7 @@ class List(ModuleInterface):
 		return ["list"]
 	
 	def process(self, block, path):
-		textModule = self.engine.modules["core.modules.Text"] if "core.modules.Text" in self.engine.modules else None
+		textModule = self.engine.getModule("core.modules.Text")
 		listId = block["id"] if "id" in block else utils.uid()
 		if listId not in self.engine.resources["lists"]:
 			if "start" in block:

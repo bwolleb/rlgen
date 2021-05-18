@@ -44,7 +44,7 @@ def guessCsvDelimiter(path):
 	firstLine += f.readline()
 	f.close()
 	
-	delimiters = [";", ","]
+	delimiters = [";", ",", "\t", "|"]
 	scores = [len(firstLine.split(delim)) for delim in delimiters]
 	return delimiters[scores.index(max(scores))]
 

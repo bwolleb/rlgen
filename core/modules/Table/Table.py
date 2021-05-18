@@ -22,7 +22,7 @@ class Table(ModuleInterface):
 		return ["table"]
 	
 	def processCell(self, cell, path):
-		textModule = self.engine.modules["core.modules.Text"] if "core.modules.Text" in self.engine.modules else None
+		textModule = self.engine.getModule("core.modules.Text")
 		
 		if type(cell) is str and textModule is not None:
 			return textModule.buildText(cell)

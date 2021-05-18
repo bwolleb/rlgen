@@ -57,9 +57,9 @@ class Title(ModuleInterface):
 			fullNumbering = None
 			numbered = "numbered" not in block or block["numbered"]
 			
-			bookmarkModule = self.engine.modules["core.modules.Bookmark"] if "core.modules.Bookmark" in self.engine.modules else None
-			textModule = self.engine.modules["core.modules.Text"] if "core.modules.Text" in self.engine.modules else None
-			tocEntryModule = self.engine.modules["core.modules.TocEntry"] if "core.modules.TocEntry" in self.engine.modules else None
+			bookmarkModule = self.engine.getModule("core.modules.Bookmark")
+			textModule = self.engine.getModule("core.modules.Text")
+			tocEntryModule = self.engine.getModule("core.modules.TocEntry")
 			
 			chaptersData = self.engine.resources["chapters"]
 			currentChapter = chaptersData["current"]
@@ -128,7 +128,7 @@ class Title(ModuleInterface):
 			elif type(style) is str:
 				self.chapterStyles[block["level"]] = style
 			elif type(style) is dict:
-				fontModule = self.engine.modules["core.modules.FontLoader"] if "core.modules.FontLoader" in self.engine.modules else None
+				fontModule = self.engine.getModule("core.modules.FontLoader")
 				if fontModule is not None:
 					newStyle = fontModule.buildFont(style)
 					styleName = style["name"]

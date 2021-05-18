@@ -15,7 +15,7 @@ class Toc(ModuleInterface):
 	
 	def process(self, block, path):
 		toc = TableOfContents()
-		fontModule = self.engine.modules["core.modules.FontLoader"] if "core.modules.FontLoader" in self.engine.modules else None
+		fontModule = self.engine.getModule("core.modules.FontLoader")
 		
 		if "dotsMinLevel" in block:
 			toc.dotsMinLevel = block["dotsMinLevel"]

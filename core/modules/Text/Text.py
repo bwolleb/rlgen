@@ -53,8 +53,8 @@ class Text(ModuleInterface):
 				else:
 					utils.error("undefined font: " + font)
 			elif type(font) is dict:
-				if "core.modules.FontLoader" in self.engine.modules:
-					fontModule = self.engine.modules["core.modules.FontLoader"]
+				fontModule = self.engine.getModule("core.modules.FontLoader")
+				if fontModule is not None:
 					style = fontModule.buildFont(font)
 					self.engine.fonts[font["name"]] = style
 				else:

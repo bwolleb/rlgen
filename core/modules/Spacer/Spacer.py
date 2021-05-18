@@ -23,8 +23,8 @@ class Spacer(ModuleInterface):
 			factor = [mm, mm]
 		elif "unit" in block and block["unit"] == "percent":
 			pagesize = self.engine.pagestyles[0].pagesize if len(self.engine.pagestyles) > 0 else None
-			if  "core.modules.NewPage" in self.engine.modules:
-				newPageModule = self.engine.modules["core.modules.NewPage"]
+			newPageModule = self.engine.getModule("core.modules.NewPage")
+			if  newPageModule is not None:
 				if newPageModule.currentPageTemplate is not None:
 					pagesize = newPageModule.currentPageTemplate.pagesize
 			if pagesize is None:
