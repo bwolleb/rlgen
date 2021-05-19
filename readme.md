@@ -105,7 +105,7 @@ Currently, all the following block types can be used:
 - [tocEntry](core/modules/TocEntry): insert a manual entry in the table of contents
 
 # Resources
-The engine has a special data dict called `resources` which is often references and used by modules. This dict is intended to contain various information that are directly accessible by all modules and within the text and various blocks. For example, it is possible to load a data file like a json or a csv using the [Resource](core/modules/Resource) module and use the data as the rows of a [table](core/modules/Table).
+The engine has a special data dict called `resources` which is often referenced and used by modules. This dict is intended to contain various information that are directly accessible by all modules and within the text and various blocks. For example, it is possible to load a data file like a json or a csv using the [Resource](core/modules/Resource) module and use the data as the rows of a [table](core/modules/Table).
 
 Here is a non exhaustive list of what can be found in the resources:
 
@@ -123,7 +123,7 @@ Here is a non exhaustive list of where the resource dict can be used:
 - as rows of a [table](core/modules/Table)
 - as items of a [list](core/modules/List)
 - as items to iterate with a [loop](core/modules/Loop)
-- as data source of modules that exec python snippets ([Condition](core/modules/Condition), [Decorator](core/modules/Decorator), [Condition](core/modules/Exec), [Painter](core/modules/Painter), ...)
+- as data source of modules that exec python snippets ([Condition](core/modules/Condition), [Decorator](core/modules/Decorator), [Painter](core/modules/Painter), ...)
 - in any module / callback that receives the engine
 - ...
 

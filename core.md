@@ -32,7 +32,7 @@ When processing a block, a basic check is operated by the ModuleInterface throug
 - If necessary, the whole `validate` method can be reimplemented if the simple "keys exist in input block" is not sufficient and the input must be check in a more deep way.
 
 # Callbacks
-Callbacks are the most important mechanism to allow the plugins to fulfill their role, as some features require to be able to trigger specific functions at a specific time.
+Callbacks are one of the most important mechanism to allow the plugins to fulfill their role, as some features require to be able to trigger specific functions at a specific time.
 
 For example, the [PageCounter](core/modules/PageCounter) module is responsible of providing `pageNum` and `pageTot` variables at build time which allows to print a "page x of y" decoration on each page of the document. This module works by registering the following callbacks:
 
