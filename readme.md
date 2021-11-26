@@ -32,6 +32,10 @@ To use it, you will need the following python packages:
 - python-dateutil
 - python-magic
 
+```
+pip install reportlab Pillow pdfrw pyaml python-dateutil python-magic
+```
+
 # Usage
 The easiest way to use it is to run the `main.py` script, which has the following interface: `main.py src [dst]`
 
@@ -103,6 +107,11 @@ Currently, all the following block types can be used:
 - [titleNum](core/module/Title): change title level number format
 - [titleStyle](core/modules/Title): change the default chapter font styles
 - [tocEntry](core/modules/TocEntry): insert a manual entry in the table of contents
+
+## Additional blocks
+These blocks are stored in the `extra` module because they are more specific, therefore considered optional. They often require to install additional python modules to be used, see dedicated readme for each:
+
+- [formula](extra/Formula): insert a math formula, LaTeX style
 
 # Resources
 The engine has a special data dict called `resources` which is often referenced and used by modules. This dict is intended to contain various information that are directly accessible by all modules and within the text and various blocks. For example, it is possible to load a data file like a json or a csv using the [Resource](core/modules/Resource) module and use the data as the rows of a [table](core/modules/Table).
