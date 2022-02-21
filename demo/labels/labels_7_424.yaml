@@ -1,0 +1,45 @@
+# This template allows to fill a 21 labels page (3 x 70mm, 7 * 4.24mm) using CSV resource
+# Based on this swiss product: Papeteria Etiquettes 70 x 42 4mm 30p, https://produits.migros.ch/papeteria-etiquettes-70-x-42-4mm-30p
+
+- type: module
+  id: core.modules.Template
+
+- type: template
+  name: std_modules
+
+- type: font
+  font: Times-Roman
+  name: default
+  default: true
+  size: 12
+  align: left
+  color: "000000"
+  leading: 14
+  spaceAfter: 12
+
+- type: page
+  name: a4_portrait
+  size: A4
+  orientation: portrait
+  frames:
+    - margin_left: 0
+      margin_right: 0
+      margin_top: 0
+      margin_bottom: 0
+
+- type: resource
+  alias: tableData
+  path: data.csv
+
+# The grid is only for visualization, remember to remove/comment it when generating the final pdf to avoid printing weird lines on the labels template
+
+- type: table
+  widths: [7, 7, 7]
+  heights: [4.24, 4.24, 4.24, 4.24, 4.24, 4.24, 4.24]
+  unit: cm
+  rows: tableData
+  style:
+    - [GRID, [0,0], [-1,-1], 0.5, "#000000"]
+    - [VALIGN, [0,0], [-1,-1], MIDDLE]
+    - [LEFTPADDING, [0,0], [-1,-1], 12]
+    - [RIGHTPADDING, [0,0], [-1,-1], 12]
