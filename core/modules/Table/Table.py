@@ -95,20 +95,25 @@ class Table(ModuleInterface):
 			frameWidth = pageStyleModule.currentPageTemplate.frames[framdIdx]._width
 		
 		nbCols = len(rows[0])
-		widths = [frameWidth / nbCols] * nbCols
 		
+		unit = cm
+		if "unit" in block:
+			if block["unit"] == "cm": unit = cm
+			elif block["unit"] == "mm": unit = mm
+			elif block["unit"] == "percent": unit = frameWidth/100
+		
+		widths = [frameWidth / nbCols] * nbCols
 		if "widths" in block:
-			unit = cm
-			if "unit" in block:
-				if block["unit"] == "cm": unit = cm
-				elif block["unit"] == "mm": unit = mm
-				elif block["unit"] == "percent": unit = frameWidth/100
 			widths = [w * unit for w in block["widths"]]
+		
+		heights = None
+		if "heights" in block:
+			heights = [h * unit for h in block["heights"]]
 		
 		# Finally, build table
 		align = block["align"] if "align" in block else None
 		repeatRows = block["repeatRows"] if "repeatRows" in block else 0
-		table = reportlab.platypus.Table(rows, colWidths=widths, repeatRows=repeatRows, hAlign=align)
+		table = reportlab.platypus.Table(rows, colWidths=widths, rowHeights=heights, repeatRows=repeatRows, hAlign=align)
 		table.setStyle(reportlab.platypus.TableStyle(style))
 		
 		return [table]

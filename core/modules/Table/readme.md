@@ -26,7 +26,8 @@ A cell can be either:
 - header: list of cells to insert in the first row, at the beginning of the table, with the default header style. This is 100% sugar syntax as the header could be specified in the `rows`.
 - border: boolean, allows to hide the black grid, default is true
 - widths: list of values to set the width of each column, by default each column has the same width and fill the available page width
-- unit: set the unit of the column widths, can be cm, mm or percent (of the current page style frame width), default is cm
+- heights: list of values to set the height of each row, by default this value is automatically computed for each row according to the content of all cells. *Warning*: if this property is set, the number of rows is fixed and generation will crash if the data don't match.
+- unit: set the unit of the column widths/heights, can be cm, mm or percent (of the current page style frame width), default is cm
 - align: horizontal alignment of the table on the page, can be LEFT, CENTER or RIGHT, default is LEFT
 - repeatRows: integer, tell the table to repeat n rows if the table is split over several pages
 - style: list of objects to fully customize the inner TableStyle (border, padding, background, span, ...). Providing a custom style overrides the default style (cell alignment, grid, header). See reportlab doc for more information.
