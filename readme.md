@@ -143,10 +143,10 @@ For a more in-depth view of the modules, engine and reportlab tricks, see [here]
 GNU GPLv3, see [license.md](license.md)
 
 # Todo
-- Add a plot block to insert data charts using matplotlib
-- Allow to instanciate multiple module instances and call a specific one in a block
+- Add a plot block to insert data charts using matplotlib: should be implemented as `extra` module, find the right amount of sugar to add over matplotlib
+- Allow to instanciate multiple module instances and call a specific one in a block: not sure if it is relevant, find a usecase first
 - Blocks to ease variable/resource manipulation (set, eval, remove, update dict, update list, ...)
 - Moar blocks: square, link area, line, arc, shape, circle, barcode ...
-- Implement footnotes (currently not available in reportlab)
-- Allow to use resources as data source for Image, QRCode, Metadata
-- Allow to reset pageNum/pageTot within the document
+- Implement footnotes: currently not available in reportlab, so it might be really hard to do anything usable without HUGE hacks
+- Allow to use resources as data source for Image, QRCode, Metadata: easy one
+- Allow to reset pageNum/pageTot within the document: this is not trivial (can't be fixed by simple resource manipulation) as the special `pageNum` and `pageTot` variables are computed at build time, so it requires to mess up with the PageCounter during build.
