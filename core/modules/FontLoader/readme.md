@@ -38,6 +38,9 @@ All keys of reportlab ParagraphStyle.defaults dict can be specified:
 
 ... and many more, see official documentation or reportlab sources.
 
+## Hyphenation
+If you want your text to automatically hyphenate words, you'll have to install the `pyphen` package, as it is the backend reportlab uses to hyphenate, and set the `hyphenationLang` property to one of the supported languages (from LibreOffice dictionnaries, see pyphen documentation) in the desired font style.
+
 # Example
 Simple black font:
 ```
