@@ -55,6 +55,8 @@ class List(ModuleInterface):
 		for prop in defaultProps.keys():
 			args[prop] = block[prop] if prop in block else defaultProps[prop]
 		
+		font = block["font"] if "font" in block else None
+		
 		if "numbered" in block and block["numbered"]:
 			args["bulletFormat"] = defaultFormat if "format" not in block else block["format"]
 			args["start"] = self.engine.resources["lists"][listId]
@@ -90,7 +92,7 @@ class List(ModuleInterface):
 		listItems = []
 		for i in items:
 			if type(i) is str:
-				listItems.append(textModule.buildText(i))
+				listItems.append(textModule.buildText(i, font))
 			elif type(i) is dict:
 				listItems.append(self.engine.processBlock(i, path))
 			elif type(i) is list:

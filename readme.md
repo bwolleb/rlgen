@@ -85,7 +85,7 @@ Currently, all the following block types can be used:
 - [img](core/modules/Image): alias for `image`
 - [include](core/modules/Include): include file content or a whole folder, can be recursive
 - [line](core/modules/Line): insert a horizontal line
-- [list](core/modules/Line): insert a bullet or numbered list
+- [list](core/modules/List): insert a bullet or numbered list
 - [loop](core/modules/Loop): loop over a resource and render blocks at each iteration
 - [meta](core/modules/Metadata): set metadata of the generated PDF document
 - [module](core/modules/ModuleLoader): load module, set module attributes or call module method

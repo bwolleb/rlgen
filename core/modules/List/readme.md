@@ -8,11 +8,14 @@ A bullet list will by default use the bullet character, but it is possible to us
 
 In both cases, the `item` content of the list can be:
 - A string that references a resource, then this resource is loaded in place. The resource *should be a list*  as it will be iterated!
-- A list of strings, each will be built as a normal text item using the current default font style
+- A list of strings, each will be built as a normal text item using the current default font style, or the specified "font"
 - A list of object (dictionnaries) which will be processed through the engine, each object is an item
 - A list of list of objects (dictionnaries) which will be processed through the engine, each list of object is an item
 
 Again, no check is performed on the inserted blocks, so don't put stupid or too complex things in lists.
+
+## Note
+If you are getting a strange/unwanted vertical spacing between items on the list, remember that string items are built using the current default font (unless specified) and this font may have a `spaceBefore` or `spaceAfter` value that causes the items to be drawn far from each others.
 
 ## Block types
 - list: insert a bullet or numbered list
@@ -45,6 +48,7 @@ In addition, the following properties of the ListFlowable can also be tuned as n
 - bulletOffsetY: vertical offset of the bullet, can be tuned if not aligned, default is -4
 - bulletDedent: bullet dedent, default is 15
 - leftIndent: left indent, default is 30
+- font: specify font style to use when building string items, otherwise the current default will be used
 
 # Example
 Simple numbered list:
