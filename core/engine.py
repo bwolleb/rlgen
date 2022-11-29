@@ -1,6 +1,7 @@
 import sys
 import os
 
+from collections import defaultdict
 from core import utils
 from .modules.ModuleLoader import Module as ModuleLoader
 from .rl import DocTemplate, BuildTrigger
@@ -19,7 +20,8 @@ class Engine(object):
 		self.buildEndCallbacks = []
 		self.pageBeginCallbacks = []
 		self.pageEndCallbacks = []
-		
+		self.preprocessing = defaultdict(list)
+
 		self.moduleLoader = ModuleLoader(self)
 		self.modules[self.moduleLoader.identifier()] = self.moduleLoader
 		for blockType in self.moduleLoader.handles():
@@ -30,9 +32,12 @@ class Engine(object):
 		
 		if "type" in block:
 			blockType = block["type"]
+			if blockType in self.preprocessing:
+				for preprocessor in self.preprocessing[blockType]:
+					build += preprocessor(block, path)
 			if blockType in self.blockHandlers:
 				blockHandlerId = self.blockHandlers[blockType]
-				build = self.modules[blockHandlerId].processBlock(block, path)
+				build += self.modules[blockHandlerId].processBlock(block, path)
 			else:
 				utils.error("Warning, No module to handle " + blockType)
 		else:

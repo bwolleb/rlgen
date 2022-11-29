@@ -13,7 +13,7 @@ class ModuleLoader(ModuleInterface):
 		return "core.modules.ModuleLoader"
 	
 	def handles(self):
-		return ["module"]
+		return ["module", "set", "call"]
 	
 	def loadModule(self, moduleId, args={}):
 		try:
@@ -26,8 +26,9 @@ class ModuleLoader(ModuleInterface):
 			for blockType in instance.handles():
 				self.engine.blockHandlers[blockType] = instance.identifier()
 			return instance
-		except ModuleNotFoundError:
+		except ModuleNotFoundError as e:
 			utils.error("Could not load module: " + moduleId)
+			utils.error(str(e))
 			return None
 	
 	def process(self, block, path):
