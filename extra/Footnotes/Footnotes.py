@@ -12,8 +12,9 @@ DEFAULT_INLINEFORMAT = "[{num}]"
 DEFAULT_STYLE = []
 DEFAULT_STYLE.append(("LINEABOVE", (0,0), (-1,0), 0.5, colors.black))
 DEFAULT_STYLE.append(("VALIGN", (0,0), (0,-1), "TOP"))
-DEFAULT_STYLE.append(("TOPPADDING", (0,0), (-1,-1), 2))
-DEFAULT_STYLE.append(("BOTTOM", (0,0), (-1,-1), 2))
+DEFAULT_STYLE.append(("TOPPADDING", (0,0), (-1,0), 3))
+DEFAULT_STYLE.append(("TOPPADDING", (0,1), (-1,-1), 1))
+DEFAULT_STYLE.append(("BOTTOMPADDING", (0,0), (-1,-1), 1))
 DEFAULT_STYLE.append(("RIGHTPADDING", (0,0), (-1,-1), 0))
 DEFAULT_STYLE.append(("LEFTPADDING", (0,0), (0,-1), 0))
 DEFAULT_STYLE.append(("LEFTPADDING", (1,0), (1,-1), 4))
@@ -30,7 +31,8 @@ class FNote(reportlab.platypus.Flowable):
 
 class Footnotes(ModuleInterface):
 	def __init__(self, engine, counting=True, width=None, maxHeight=None, x=None, y=1*cm, style=DEFAULT_STYLE, font=None,
-				 counterWidth=0.5*cm, numFormat=DEFAULT_NUMFORMAT, inlineFormat=DEFAULT_INLINEFORMAT, preprocess=["text", "txt"]):
+				 counterWidth=0.5*cm, numFormat=DEFAULT_NUMFORMAT, inlineFormat=DEFAULT_INLINEFORMAT, preprocess=["text", "txt"],
+				 warnOverlap=True):
 		super().__init__(engine)
 		txtProc = engine.getModule("core.modules.TextProcessor")
 		if txtProc is None:
@@ -45,10 +47,12 @@ class Footnotes(ModuleInterface):
 		engine.pageEndCallbacks.append(self.pageEnd)
 		engine.beforeBuildCallbacks.append(self.buildBegins)
 
+		self.builder = None
 		self.onPage = []
 		self.refs = {}
 		self.counting = counting
 		self.counter = 0
+		self.warnOverlap = warnOverlap
 
 		# Drawing parameters
 		self.width = width
@@ -95,11 +99,14 @@ class Footnotes(ModuleInterface):
 				rows.append(row)
 			tbl = reportlab.platypus.Table(rows, colWidths=widths)
 			tbl.setStyle(reportlab.platypus.TableStyle(self.style))
-			tbl.wrap(self.width, self.maxHeight)
+			w, h = tbl.wrap(self.width, self.maxHeight)
+			if self.warnOverlap and self.builder.frame._y <= self.y + h:
+				utils.error("Warning, potential footnote overlap detected on page: " + str(canvas.getPageNumber()))
 			tbl.drawOn(canvas, self.x, self.y)
 			self.onPage = []
 
-	def buildBegins(self, engine, *args):
+	def buildBegins(self, engine, builder, blocks):
+		self.builder = builder
 		defaultFrame = None
 
 		pageStyleModule = self.engine.getModule("core.modules.PageStyle")
