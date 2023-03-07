@@ -59,6 +59,8 @@ class Bibliography(ModuleInterface):
 			entry = self.engine.resources["biblio"][ref]
 			txt = ""
 			if kind == "al":
+				return True, entry["author"]
+			elif kind == "authors":
 				return True, entry["authors"]
 			elif kind == "title":
 				return True, entry["title"]
@@ -82,6 +84,14 @@ class Bibliography(ModuleInterface):
 		txt = str.join(" ", names)
 		if len(authors) > 1:
 			txt += " et al."
+		return txt
+
+	def formatAuthors(self, entry):
+		style = PlainStyle()
+		formatter = style.format_names("author")
+		txt = formatter.format_data({"entry": entry, "style": style, "bib_data": None})
+		if txt.endswith("."):
+			txt = txt[:-1]
 		return txt
 
 	def formatTitle(self, entry):
@@ -116,7 +126,8 @@ class Bibliography(ModuleInterface):
 			for k in db.entries:
 				entry = db.entries[k]
 				data = {}
-				data["authors"] = self.formatAuthor(entry)
+				data["author"] = self.formatAuthor(entry)
+				data["authors"] = self.formatAuthors(entry)
 				data["title"] = self.formatTitle(entry)
 				data["formatted"] = self.formatFull(entry)
 				data["num"] = None
