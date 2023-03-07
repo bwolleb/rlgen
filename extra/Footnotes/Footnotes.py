@@ -10,7 +10,6 @@ from reportlab.lib import colors
 DEFAULT_NUMFORMAT = "<para align='right'>{num}. </para>"
 DEFAULT_INLINEFORMAT = "[{num}]"
 DEFAULT_STYLE = []
-DEFAULT_STYLE.append(("LINEABOVE", (0,0), (-1,0), 0.5, colors.black))
 DEFAULT_STYLE.append(("VALIGN", (0,0), (0,-1), "TOP"))
 DEFAULT_STYLE.append(("TOPPADDING", (0,0), (-1,0), 3))
 DEFAULT_STYLE.append(("TOPPADDING", (0,1), (-1,-1), 1))
@@ -32,7 +31,7 @@ class FNote(reportlab.platypus.Flowable):
 class Footnotes(ModuleInterface):
 	def __init__(self, engine, counting=True, width=None, maxHeight=None, x=None, y=1*cm, style=DEFAULT_STYLE, font=None,
 				 counterWidth=0.5*cm, numFormat=DEFAULT_NUMFORMAT, inlineFormat=DEFAULT_INLINEFORMAT, preprocess=["text", "txt"],
-				 warnOverlap=True):
+				 warnOverlap=True, lineWidth=1, lineThickness=0.5, lineColor="000000"):
 		super().__init__(engine)
 		txtProc = engine.getModule("core.modules.TextProcessor")
 		if txtProc is None:
@@ -64,6 +63,9 @@ class Footnotes(ModuleInterface):
 		self.numFormat = numFormat
 		self.inlineFormat = inlineFormat
 		self.font = font
+		self.lineWidth = lineWidth
+		self.lineThickness = lineThickness
+		self.lineColor = lineColor
 
 	def processor(self, engine, arg):
 		if arg in self.refs:
@@ -100,6 +102,12 @@ class Footnotes(ModuleInterface):
 			tbl = reportlab.platypus.Table(rows, colWidths=widths)
 			tbl.setStyle(reportlab.platypus.TableStyle(self.style))
 			w, h = tbl.wrap(self.width, self.maxHeight)
+
+			# Draw line
+			canvas.setLineWidth(self.lineThickness)
+			canvas.setStrokeColor(utils.hexcolor(self.lineColor))
+			canvas.line(self.x, self.y + h, self.x + self.lineWidth * self.builder.frame._width, self.y + h)
+
 			if self.warnOverlap and self.builder.frame._y <= self.y + h:
 				utils.error("Warning, potential footnote overlap detected on page: " + str(canvas.getPageNumber()))
 			tbl.drawOn(canvas, self.x, self.y)
