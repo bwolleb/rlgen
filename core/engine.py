@@ -18,6 +18,7 @@ class Engine(object):
 		self.beforeBuildCallbacks = []
 		self.buildBeginCallbacks = []
 		self.buildEndCallbacks = []
+		self.afterBuildCallbacks = []
 		self.pageBeginCallbacks = []
 		self.pageEndCallbacks = []
 		self.preprocessing = defaultdict(list)
@@ -50,14 +51,15 @@ class Engine(object):
 		for block in blocks:
 			build += self.processBlock(block, path)
 		return build
-	
+
 	def build(self, blocks, dest):
 		self.resources["build"] = {}
 		builder = DocTemplate(self, dest, self.pagestyles)
 		blocks.append(BuildTrigger(self, builder))
 		for c in self.beforeBuildCallbacks: c(self, builder, blocks)
 		builder.multiBuild(blocks)
-	
+		for c in self.afterBuildCallbacks: c(self, builder)
+
 	def getPageStyle(self, name):
 		for ps in self.pagestyles:
 			if ps.id == name:

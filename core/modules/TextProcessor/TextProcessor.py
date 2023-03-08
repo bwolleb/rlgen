@@ -27,6 +27,7 @@ class TextProcessor(ModuleInterface):
 			utils.error("Text module doesn ot seem to be loaded, text processors won't work")
 		
 		engine.buildBeginCallbacks.append(self.buildBegin)
+		engine.afterBuildCallbacks.append(self.afterBuild)
 	
 	def buildBegin(self, engine, builder):
 		remainingParagraphs = []
@@ -35,7 +36,13 @@ class TextProcessor(ModuleInterface):
 			if not finished:
 				remainingParagraphs.append(p)
 		self.paragraphs = remainingParagraphs
-	
+
+	def afterBuild(self, engine, builder):
+		if len(self.paragraphs):
+			print("Warning, there are", len(self.paragraphs), "unresolved text processor tags")
+			for (par, data) in self.paragraphs:
+				print(par.text)
+
 	def newText(self, paragraph, data):
 		if data is not None and "format" in data or len(markupRe.findall(paragraph.text)) > 0:
 			finished = self.processText(paragraph, data)
