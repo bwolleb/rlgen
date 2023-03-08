@@ -5,11 +5,11 @@ def dataProcessor(engine, arg):
 	data = utils.getData(engine.resources, arg)
 	return data is not None, data
 
-def chapterProcessor(engine, arg):
+def chapterProcessor(engine, arg, label="fulltext"):
 	if "chapters" in engine.resources:
 		if arg in engine.resources["chapters"]["id"]:
 			chapterData = engine.resources["chapters"]["id"][arg]
-			txt = chapterData["fulltext"]
+			txt = chapterData[label]
 			link = chapterData["link"]
 			return True, "<a href=\"#{}\">{}</a>".format(link, txt)
 	return False, ""
