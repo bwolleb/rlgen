@@ -1,0 +1,15 @@
+color:
+  string: "0x009b1d"
+  keyword: "0x004499"
+  comment: "0xa4a4a4"
+
+italic:
+  - comment
+bold:
+  - keyword
+
+match:
+  - ['("[a-zA-Z0-9_]+")', string]
+  - ["('[a-zA-Z0-9_]+')", string]
+  - ['\s(False|None|True|and|as|assert|async|await|break|continue|del|class|def|elif|else|except|finally|for|from|global|if|import|in|is|lambda|nonlocal|not|or|pass|raise|return|try|while|with|yield)\s', keyword]
+  - ['(#[a-zA-Z0-9_\ \t\"#\＄%&\(\)\*\+,\-\.\/:;<=>\?@\[\\\]\^_{\|}~]+)[\n\r]', comment]
