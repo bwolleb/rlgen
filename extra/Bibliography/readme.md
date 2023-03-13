@@ -6,6 +6,8 @@ This hacky module is a POC for bibliography support, it is **not** considered st
 - Allow to make references within text through specialized text processors
 - Render the full bibliography with the default formatting style
 
+Currently, the generated bibliography is generated in the order the items were referenced within text (if using the "used" render option) or the items order from the bib file, a future improvement should be to sort the output by date, author of title.
+
 ## Initialization
 When the module is loaded, the following values can be overriden:
 

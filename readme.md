@@ -109,9 +109,16 @@ Currently, all the following block types can be used:
 - [tocEntry](core/modules/TocEntry): insert a manual entry in the table of contents
 
 ## Additional blocks
-These blocks are stored in the `extra` module because they are more specific, therefore considered optional. They often require to install additional python modules to be used, see dedicated readme for each:
+These blocks are stored in the `extra` module because they are more specific or even in development, therefore considered optional. They often require to install additional python modules to be used, see dedicated readme for each:
 
+- 🛠️ [bib](extra/Bibliography): load LaTeX bib bibliography database file
+- 🛠️ [bibliography](extra/Bibliography): generate a bibliography
+- 🛠️ [footnote](extra/Footnote): insert a footnote on the current page
+- 🛠️ [fn](extra/Footnote): alias for `footnote`
 - [formula](extra/Formula): insert a math formula, LaTeX style
+- 🛠️ [lst](extra/Listings): insert a code listing with syntax highlighting
+
+🛠️: Those modules are work in progress, somewhat usable but with care.
 
 # Resources
 The engine has a special data dict called `resources` which is often referenced and used by modules. This dict is intended to contain various information that are directly accessible by all modules and within the text and various blocks. For example, it is possible to load a data file like a json or a csv using the [Resource](core/modules/Resource) module and use the data as the rows of a [table](core/modules/Table).
