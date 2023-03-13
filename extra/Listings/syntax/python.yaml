@@ -1,0 +1,17 @@
+color:
+  string: "0x009b1d"
+  keyword: "0x004499"
+  comments: "0x808080"
+
+italic:
+  - comments
+bold:
+  - keyword
+
+match:
+  - ['("[a-zA-Z0-9_\ \t\"\#\＄\%\&\(\)\*\+\,\-\.\/\:\;\<\=\>\?@\[\\\]\^_{\|}~]+")', string]
+  - ["('[a-zA-Z0-9\\_ \\t\\\"\\#\\＄\\%\\&\\(\\)\\*\\+\\,\\-\\.\\/\\:\\;\\<\\=\\>?@\\[\\]\\^\\_\\{\\|\\}~]+')", string]
+  - ['\b(False|None|True|and|as|assert|async|await|break|continue|del|class|def|elif|else|except|finally|for|from|global|if|import|in|is|lambda|nonlocal|not|or|pass|raise|return|try|while|with|yield)\b', keyword]
+
+comments:
+  - '(#[a-zA-Z0-9_\ \t\"#\＄%&\(\)\*\+,\-\.\/:;<=>\?@\[\\\]\^_{\|}~]+)[\n\r]'
