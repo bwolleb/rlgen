@@ -140,7 +140,7 @@ class Bibliography(ModuleInterface):
 			bookmarkModule = self.engine.getModule("core.modules.Bookmark")
 			formatted = []
 			if textModule is not None:
-				keys = self.used if block["render"] == "used" else list(self.db.entries.keys())
+				keys = self.used if "render" in block and block["render"] == "used" else list(self.db.entries.keys())
 				i = 1
 				for k in keys:
 					entry = biblioData[k]

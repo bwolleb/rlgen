@@ -19,6 +19,16 @@ When the module is loaded, the following values can be overriden:
 - bib: load a bibliography database file
 - bibliography: generate the bibliography of referenced or all items in the database
 
+## Chapter resource
+When a bib database is loaded, each item is actually pre-formatted and inserted in the `biblio` resource, maintained by this module. The resource can be used like any other within the document, for example with the normal `res()` text processor. Actually, using `res(biblio/ref/title)` is strictly equivalent to `cite(ref, title)`. Each item has the following keys:
+
+- `author`: formatted shortened author string, like "Lastname et al."
+- `authors`: formatted list of all authors
+- `title`: formatted title of the document
+- `formatted`: full reference string (authors, title, editor, url, etc...)
+- `num`: number assigned of the item (only known when the bibliography is actually inserted in the document)
+- `link`: in-document link to the rendered item in the bibliography (only known when the bibliography is actually inserted in the document)
+
 # Usage
 
 ## Text processor
@@ -27,7 +37,7 @@ The module will attempt to register text processors to allow creating reference 
 - `al`: Cite the shortened authors like "Lastname et al."
 - `authors`: Cite the full list of authors
 - `title`: Cite the title of the item
-- `no`: Print the number of the item with the current numFormat, creating a clickable item to the rendered bibliography
+- `no`: Print the number of the item with the current numFormat, creating a clickable item to the rendered bibliography. Note, like all text processors, it will not be formatted if something is missing, in this case if the bibliography is not inserted in the document, no link exists to it and the text processor won't insert the number, meaning you can not use the number format if you don't insert the actual bibliography somewhere.
 
 Other formats will be implemented in the future to look more LaTeX-ish.
 
@@ -36,8 +46,8 @@ Other formats will be implemented in the future to look more LaTeX-ish.
 - path: relative path to the bib file to load
 
 ## Print bibliography
-### Args
-- render: set to "used" to generate the bibliography only using the referenced items, or any other value like "all" to generate the full database
+### Optional
+- render: set to "used" to generate the bibliography only using the referenced items, or remove this key ir set any other value like "all" to generate the full database
 
 # Examples
 
