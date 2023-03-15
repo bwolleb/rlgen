@@ -24,8 +24,40 @@ def buildDate(engine, form):
 	formatting = form if form != "" else "%d.%m.%Y %H:%M:%S"
 	return True, datetime.datetime.now().strftime(formatting)
 
+def increment(engine, name, key=None):
+	if "counters" not in engine.resources:
+		engine.resources["counters"] = {}
+	counters = engine.resources["counters"]
+	if name not in counters:
+		counters[name] = 0
+	val = counters[name]
+	val += 1
+	formatted = str(val)
+	if key is not None:
+		if "countersRef" not in engine.resources:
+			engine.resources["countersRef"] = {}
+		engine.resources["countersRef"][key] = val
+		bookmarkModule = engine.getModule("core.modules.Bookmark")
+		if bookmarkModule is not None:
+			uid = bookmarkModule.registerBookmark(key)
+			formatted = "<a name=\"{}\"/>".format(uid) + formatted
+	return True, formatted
+
+def counterRef(engine, key, text=""):
+	if len(text) > 0:
+		text += " "
+	if "countersRef" not in engine.resources:
+		return False, ""
+	val = engine.resources["countersRef"][key]
+	formatted = text + str(val)
+	if "bookmarks" in engine.resources and key in engine.resources["bookmarks"]:
+		formatted = "<a href=\"#{}\">{}{}</a>".format(engine.resources["bookmarks"][key], text, val)
+	return True, formatted
+
 Processors = {}
 Processors["data"] = dataProcessor
 Processors["chapter"] = chapterProcessor
 Processors["ref"] = bookmarkProcessor
 Processors["now"] = buildDate
+Processors["inc"] = increment
+Processors["cnt"] = counterRef
