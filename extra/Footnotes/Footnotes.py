@@ -109,7 +109,9 @@ class Footnotes(ModuleInterface):
 			canvas.line(self.x, self.y + h, self.x + self.lineWidth * self.builder.frame._width, self.y + h)
 
 			if self.warnOverlap and self.builder.frame._y <= self.y + h:
-				utils.error("Warning, potential footnote overlap detected on page: " + str(canvas.getPageNumber()))
+				height = (self.y + h) - self.builder.frame._y
+				heightCm = round(height / cm, 2)
+				utils.error("Warning, potential footnote overlap detected on page: " + str(canvas.getPageNumber()) + " (" + str(heightCm) + " cm)")
 			tbl.drawOn(canvas, self.x, self.y)
 			self.onPage = []
 
