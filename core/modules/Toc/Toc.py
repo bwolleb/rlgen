@@ -3,10 +3,19 @@ from core import utils
 
 from reportlab.platypus.tableofcontents import TableOfContents
 
+class CustomToc(TableOfContents):
+	def __init__(self, notif="TOCEntry", **kwargs):
+		super().__init__(**kwargs)
+		self.notif = notif
+
+	def notify(self, kind, stuff):
+		if kind == self.notif:
+			self.addEntry(*stuff)
+
 class Toc(ModuleInterface):
 	def __init__(self, engine):
 		super().__init__(engine)
-	
+
 	def identifier(self):
 		return "core.modules.Toc"
 	
@@ -14,12 +23,15 @@ class Toc(ModuleInterface):
 		return ["toc"]
 	
 	def process(self, block, path):
-		toc = TableOfContents()
+		toc = CustomToc()
 		fontModule = self.engine.getModule("core.modules.FontLoader")
-		
+
+		if "notif" in block:
+			toc.notif = block["notif"]
+
 		if "dotsMinLevel" in block:
 			toc.dotsMinLevel = block["dotsMinLevel"]
-		
+
 		if "style" in block:
 			styles = []
 			for s in block["style"]:

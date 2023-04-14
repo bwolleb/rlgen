@@ -6,15 +6,18 @@ from core import utils
 from reportlab.platypus import ActionFlowable
 
 class TocEntryItem(ActionFlowable):
-	def __init__(self, text, link, level):
+	def __init__(self, text, link, level, notif="TOCEntry", outline=True):
 		super().__init__()
 		self.text = text
 		self.link = link
 		self.level = level
-	
+		self.notif = notif
+		self.outline = outline
+
 	def apply(self, doc):
-		doc.notify('TOCEntry', (self.level, self.text, doc.page, self.link))
-		doc.canv.addOutlineEntry(re.sub("<[^>]*>", "", self.text), self.link, self.level)
+		doc.notify(self.notif, (self.level, self.text, doc.page, self.link))
+		if self.outline:
+			doc.canv.addOutlineEntry(re.sub("<[^>]*>", "", self.text), self.link, self.level)
 
 class TocEntry(ModuleInterface):
 	def __init__(self, engine):
@@ -27,11 +30,16 @@ class TocEntry(ModuleInterface):
 	def handles(self):
 		return ["tocEntry"]
 	
-	def buildTocEntry(self, text, link, level):
-		return TocEntryItem(text, link, level)
+	def buildTocEntry(self, text, link, level, notif="TOCEntry", outline=True):
+		return TocEntryItem(text, link, level, notif, outline)
 	
 	def process(self, block, path):
 		text = block["text"]
-		link = block["id"] if "id" in block else utils.uid()
 		level = block["level"] if "level" in block else 0
-		return [self.buildTocEntry(text, link, level)]
+		notif = block["notif"] if "notif" in block else "TOCEntry"
+		outline = block["outline"] if "outline" in block else True
+
+		bookmarkModule = self.engine.getModule("core.modules.Bookmark")
+		link = bookmarkModule.registerBookmark(block["id"]) if "id" in block else utils.uid()
+		bookmark = bookmarkModule.buildBookmark(link)
+		return [bookmark, self.buildTocEntry(text, link, level, notif, outline)]
