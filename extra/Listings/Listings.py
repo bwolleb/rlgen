@@ -51,9 +51,9 @@ class Listings(ModuleInterface):
 
 		txt = block["content"]
 		# Because XPreformatted would try to process lines like #include <someting.h>
+		txt = txt.replace("&", "&amp;")
 		txt = txt.replace("<", "&lt;")
 		txt = txt.replace(">", "&gt;")
-		txt = txt.replace("&", "&amp;")
 		
 		syntax = None
 		if "syntax" in block:
@@ -74,8 +74,8 @@ class Listings(ModuleInterface):
 				markupRe = re.compile(reg)
 				match = markupRe.search(txt, pos)
 				while match is not None:
-					beg, end = match.span(1)
-					sub = match.groups()[0]
+					beg, end = match.span(0)
+					sub = match.group(0)
 					if key == "comments" or not self.isInComments(txt, comments, beg):
 						if key in syntax["italic"]:
 							sub = "<i>" + sub + "</i>"
