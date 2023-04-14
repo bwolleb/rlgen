@@ -1,0 +1,18 @@
+color:
+  string: "0x009b1d"
+  keyword: "0x004499"
+  comments: "0x808080"
+  preproc: "0x800000"
+
+italic:
+  - comments
+bold:
+  - keyword
+
+match:
+  - ['("[a-zA-Z0-9_\ \t\"\#\＄\%\&\(\)\*\+\,\-\.\/\:\;\<\=\>\?@\[\\\]\^_{\|}~]+")', string]
+  - ['\b(auto|break|case|char|const|continue|default|do|double|else|enum|extern|float|for|goto|if|inline|int|long|register|restrict|return|short|signed|sizeof|static|struct|switch|typedef|union|unsigned|void|volatile|while)\b', keyword]
+  - ['(#[a-zA-Z0-9_]+.*)[\n\r]', preproc]
+
+comments:
+  - '(\/\/[a-zA-Z0-9_\ \t\"#\＄%&\(\)\*\+,\-\.\/:;<=>\?@\[\\\]\^_{\|}~]+)[\n\r]'
