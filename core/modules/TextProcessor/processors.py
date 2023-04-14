@@ -30,8 +30,8 @@ def increment(engine, name, key=None):
 	counters = engine.resources["counters"]
 	if name not in counters:
 		counters[name] = 0
+	counters[name] += 1
 	val = counters[name]
-	val += 1
 	formatted = str(val)
 	if key is not None:
 		if "countersRef" not in engine.resources:

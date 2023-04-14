@@ -92,7 +92,7 @@ class Bibliography(ModuleInterface):
 		txt = formatter.format_data({"entry": entry, "style": style, "bib_data": None})
 		if txt.endswith("."):
 			txt = txt[:-1]
-		return txt
+		return txt.render_as('text')
 
 	def formatTitle(self, entry):
 		style = PlainStyle()
@@ -100,7 +100,7 @@ class Bibliography(ModuleInterface):
 		txt = title.format_data({"entry": entry, "style": style, "bib_data": None})
 		if txt.endswith("."):
 			txt = txt[:-1]
-		return txt
+		return txt.render_as('text')
 
 	def formatFull(self, entry):
 		style = PlainStyle()

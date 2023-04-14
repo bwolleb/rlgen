@@ -67,11 +67,12 @@ class Footnotes(ModuleInterface):
 		self.lineThickness = lineThickness
 		self.lineColor = lineColor
 
-	def processor(self, engine, arg):
-		if arg in self.refs:
-			return True, self.inlineFormat.format(num=self.refs[arg])
-		else:
-			return False, arg
+	def processor(self, engine, *fnids):
+		for fnid in fnids:
+			if fnid not in self.refs:
+				return False, ""
+		num = str.join(",", [str(self.refs[fnid]) for fnid in fnids])
+		return True, self.inlineFormat.format(num=num)
 
 	def preprocessor(self, block, path):
 		notes = {}
@@ -148,7 +149,7 @@ class Footnotes(ModuleInterface):
 		if type(content) is str and textModule is not None:
 			processed = textModule.buildText(content, self.font)
 		elif type(content) is dict:
-			processed = self.engine.processBlock(content, self.path)
+			processed = self.engine.processBlock(content, path)
 		elif type(content) is list:
 			processed = self.engine.processBlocks(content, path)
 		else:
