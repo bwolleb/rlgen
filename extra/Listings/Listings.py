@@ -8,6 +8,18 @@ from reportlab.platypus import XPreformatted
 
 syntaxDir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "syntax")
 
+def insertPos(tag, tags):
+	beg, end = tag[0], tag[1]
+	for i in range(len(tags)):
+		t = tags[i]
+		if (beg >= t[0] and beg <= t[1]) or (end >= t[0] and end <= t[1]):
+			return -1
+		if end < t[0]:
+			return i
+		elif i == len(tags) - 1:
+			return i + 1
+	return 0
+
 class Listings(ModuleInterface):
 	def __init__(self, engine, font=None):
 		super().__init__(engine)
@@ -23,22 +35,6 @@ class Listings(ModuleInterface):
 
 	def handles(self):
 		return ["lst"]
-
-	# Detect comments so that they don't get formatted
-	def isInComments(self, txt, commentRegs, start):
-		comments = []
-		pos = 0
-		for reg in commentRegs:
-			commentsRe = re.compile(reg)
-			match = commentsRe.search(txt, pos)
-			while match is not None:
-				beg, end = match.span(1)
-				if start >= beg and start < end:
-					return True
-				if start < beg:
-					return False
-				match = commentsRe.search(txt, end)
-		return False
 
 	def process(self, block, path):
 		if "font" in block and block["font"] in self.engine.fonts:
@@ -65,27 +61,36 @@ class Listings(ModuleInterface):
 				self.syntax[s["name"]] = syntax
 
 		if syntax is not None:
-			comments = syntax["comments"]
 			rules = syntax["match"]
-			rules += [(reg, "comments") for reg in comments]
 
+			tags = []
 			for (reg, key) in rules:
-				pos = 0
 				markupRe = re.compile(reg)
-				match = markupRe.search(txt, pos)
+				match = markupRe.search(txt, 0)
 				while match is not None:
 					beg, end = match.span(0)
-					sub = match.group(0)
-					if key == "comments" or not self.isInComments(txt, comments, beg):
-						if key in syntax["italic"]:
-							sub = "<i>" + sub + "</i>"
-						if key in syntax["bold"]:
-							sub = "<b>" + sub + "</b>"
-						if key in syntax["color"]:
-							sub = "<font color='" + syntax["color"][key] + "'>" + sub + "</font>"
-						txt = txt[:beg] + sub + txt[end:]
-					pos = beg + len(sub)
-					match = markupRe.search(txt, pos)
+					tag = (beg, end, key)
+					p = insertPos(tag, tags)
+					if p >= 0:
+						tags.insert(p, tag)
+					match = markupRe.search(txt, end)
 
-		x = XPreformatted(txt, font)
-		return [x]
+			processed = txt
+			if len(tags) > 0:
+				prev = 0
+				processed = ""
+				for t in tags:
+					beg, end, key = t
+					processed += txt[prev:beg]
+					sub = txt[beg:end]
+					if key in syntax["italic"]:
+						sub = "<i>" + sub + "</i>"
+					if key in syntax["bold"]:
+						sub = "<b>" + sub + "</b>"
+					if key in syntax["color"]:
+						sub = "<font color='" + syntax["color"][key] + "'>" + sub + "</font>"
+					processed += sub
+					prev = end
+				processed += txt[prev:]
+			return [XPreformatted(processed, font)]
+		return [XPreformatted(txt, font)]
