@@ -156,4 +156,3 @@ GNU GPLv3, see [license.md](license.md)
 - Moar blocks: square, link area, line, arc, shape, circle, barcode ...
 - Implement footnotes: currently not available in reportlab, so it might be really hard to do anything usable without HUGE hacks
 - Allow to use resources as data source for Image, QRCode, Metadata: easy one
-- Allow to reset pageNum/pageTot within the document: this is not trivial (can't be fixed by simple resource manipulation) as the special `pageNum` and `pageTot` variables are computed at build time, so it requires to mess up with the PageCounter during build.
