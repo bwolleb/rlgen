@@ -51,6 +51,7 @@ class Bibliography(ModuleInterface):
 		txtProc = engine.getModule("core.modules.TextProcessor")
 		if txtProc is not None:
 			txtProc.processors["cite"] = self.processor
+			txtProc.processors["citem"] = self.processorMany
 
 	def processor(self, engine, ref, kind="no"):
 		if ref not in self.used:
@@ -71,6 +72,23 @@ class Bibliography(ModuleInterface):
 						txt = "<a href=\"#{}\">{}</a>".format(entry["link"], txt)
 					return True, txt
 		return False, ""
+
+	def processorMany(self, engine, *refs):
+		txts = []
+		for ref in refs:
+			if ref not in self.used:
+				self.used.append(ref)
+		for ref in refs:
+			if ref not in self.engine.resources["biblio"]:
+				return False, ""
+			entry = self.engine.resources["biblio"][ref]
+			if entry["num"] is None:
+				return False, ""
+			txt = str(entry["num"])
+			if entry["link"] is not None:
+				txt = "<a href=\"#{}\">{}</a>".format(entry["link"], txt)
+			txts.append(txt)
+		return True, self.numFormat.format(num=str.join(", ", txts))
 
 	def identifier(self):
 		return "extra.Bibliography"
