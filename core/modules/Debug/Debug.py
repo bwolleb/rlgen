@@ -1,3 +1,5 @@
+import json
+
 from core.modules import ModuleInterface
 from core import utils
 
@@ -45,6 +47,8 @@ class Debug(ModuleInterface):
 		if "dumpText" in self.events:
 			paraTxt = [p.text for p in self.paras]
 			print(str.join("\n\n", paraTxt))
+		if "dumpRes" in self.events:
+			print(json.dumps(self.engine.resources, ensure_ascii=False, indent=2))
 
 	def newText(self, paragraph, data):
 		self.paras.append(paragraph)
