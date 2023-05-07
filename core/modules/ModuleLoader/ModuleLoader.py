@@ -15,10 +15,13 @@ class ModuleLoader(ModuleInterface):
 	def handles(self):
 		return ["module", "set", "call"]
 	
-	def loadModule(self, moduleId, args={}):
+	def loadModule(self, moduleId, name=None, args={}):
 		try:
 			module = importlib.import_module(moduleId)
-			instance = module.Module(self.engine, **args)
+			if name is not None:
+				instance = getattr(module, name)(self.engine, **args)
+			else:
+				instance = module.Module(self.engine, **args)
 			moduleIdentifier = instance.identifier()
 			if moduleIdentifier in self.engine.modules:
 				utils.error("Warning, module already loaded: " + moduleId)
@@ -30,7 +33,7 @@ class ModuleLoader(ModuleInterface):
 			utils.error("Could not load module: " + moduleId)
 			utils.error(str(e))
 			return None
-	
+
 	def process(self, block, path):
 		if "path" in block:
 			path = block["path"]
@@ -39,9 +42,10 @@ class ModuleLoader(ModuleInterface):
 		
 		args = block["args"] if "args" in block else {}
 		moduleId = block["id"]
+		name = block["class"] if "class" in block else None
 		
 		if moduleId not in self.engine.modules:
-			module = self.loadModule(moduleId, args)
+			module = self.loadModule(moduleId, name, args)
 		
 		if "set" in block:
 			if moduleId in self.engine.modules:
