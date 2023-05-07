@@ -21,6 +21,38 @@ class PageCountBlocker(IndexingFlowable):
 			return False
 		return True
 
+class PageCounter(ModuleInterface):
+	def __init__(self, engine):
+		super().__init__(engine)
+		self.pageCounter = None
+		self.beforeLastBuildCallbacks = []
+
+		engine.beforeBuildCallbacks.append(self.beforeBuild)
+		engine.buildBeginCallbacks.append(self.buildBegin)
+		engine.buildEndCallbacks.append(self.buildEnd)
+		engine.pageBeginCallbacks.append(self.pageBegin)
+
+	def beforeBuild(self, engine, builder, blocks):
+		self.pageCounter = PageCountBlocker()
+		blocks.append(self.pageCounter)
+
+	def buildBegin(self, engine, builder):
+		buildData = engine.resources["build"]
+		buildData["pageNum"] = 0
+		if not self.pageCounter.firstRun:
+			for c in self.beforeLastBuildCallbacks: c(engine, builder)
+
+	def buildEnd(self, engine, builder):
+		buildData = engine.resources["build"]
+		buildData["pageTot"] = self.pageCounter.pageCount
+
+	def pageBegin(self, engine, builder, canv):
+		buildData = engine.resources["build"]
+		buildData["pageNum"] += 1
+
+	def identifier(self):
+		return "core.modules.PageCounter"
+
 class SectionMark(NullDraw):
 	def __init__(self, callback, identifier):
 		super().__init__()
@@ -30,7 +62,7 @@ class SectionMark(NullDraw):
 	def draw(self):
 		self.callback(self.identifier)
 
-class PageCounter(ModuleInterface):
+class SectionCounter(ModuleInterface):
 	def __init__(self, engine):
 		super().__init__(engine)
 		self.mandatoryArgs = ["id"]
