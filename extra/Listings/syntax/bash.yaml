@@ -1,0 +1,18 @@
+color:
+  string: "0x738d32"
+  keyword: "0x456fb3"
+  comments: "0x4d4d4d"
+  number: "0xcd9f00"
+
+italic:
+  - comments
+bold:
+  - builtin
+  - keyword
+
+match:
+  - ['(#[a-zA-Z0-9_\ \t\"#\＄%&\(\)\*\+,\-\.\/:;<=>\?@\[\\\]\^_{\|}~]+)[\n\r]', comments]
+  - ["('[a-zA-Z0-9\\_ \\t\\\"\\#\\＄\\%\\&\\(\\)\\*\\+\\,\\-\\.\\/\\:\\;\\<\\=\\>?@\\[\\]\\^\\_\\{\\|\\}~]+')", string]
+  - ['("[a-zA-Z0-9_\ \t\#\＄\%\&\(\)\*\+\,\-\.\/\:\;\<\=\>\?@\[\\\]\^_{\|}~]+")', string]
+  - ['\b(if|then|elif|else|fi|time|for|in|until|while|do|done|case|esac|coproc|select|function)\b', keyword]
+  - ['\b[0-9]+[.0-9]*\b', number]
