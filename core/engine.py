@@ -42,7 +42,7 @@ class Engine(object):
 			else:
 				utils.error("Warning, No module to handle " + blockType)
 		else:
-			utils.error("Warning, ignoring block because no type specified")
+			utils.error("Warning, ignoring block because no type specified" + str(block))
 		
 		return build
 

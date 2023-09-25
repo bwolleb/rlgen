@@ -69,7 +69,7 @@ class PageStyle(ModuleInterface):
 				utils.error(self.identifier() + ": invalid frame: " + str(f))
 				return []
 			
-			frames.append(Frame(x, y, width, height, 0, 0, 0, 0))
+			frames.append(Frame(x, y, width, height, 0, 0, 0, 0, showBoundary=0))
 		
 		return CustomPageTemplate(self.engine, block["name"], frames, pagesize=size)
 	

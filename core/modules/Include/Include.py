@@ -31,7 +31,7 @@ class Include(ModuleInterface):
 		processed = []
 		for filename in sorted(os.listdir(path)):
 			fullpath = os.path.join(path, filename)
-			if os.path.isfile(fullpath) and matcher.match(fullpath) is not None:
+			if os.path.isfile(fullpath) and matcher.match(filename) is not None:
 				processed += self.processFile(path, filename)
 			elif os.path.isdir(fullpath) and recursive:
 				processed += self.processFolder(fullpath, matcher, recursive)
