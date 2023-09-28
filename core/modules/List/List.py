@@ -10,7 +10,7 @@ from reportlab.platypus import ListFlowable
 bullets = {}
 bullets["longdash"] = u"\u2014"
 bullets["bullet"] = "circle"
-bullets["emptyBullet"] = u"\u25CB"
+bullets["emptyBullet"] = u"\u25E6"
 bullets["arrow"] = u"\u2192"
 
 defaultFormat = "%s. "
