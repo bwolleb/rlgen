@@ -93,6 +93,7 @@ Currently, all the following block types can be used:
 - [page](core/modules/PageStyle): define a new page style
 - [pagestyle](core/modules/PageStyle): set initial default page style
 - [paint](core/modules/Painter): draw something directly on canvas in python
+- [pdf](core/modules/PDF): include a whole PDF document or a page subset
 - [qr](core/modules/QRCode): insert a QR code in the document
 - [resource](core/modules/Resource): load a json, yaml or csv file as resource
 - [space](core/modules/Spacer): insert a space, both horizontal and vertical
