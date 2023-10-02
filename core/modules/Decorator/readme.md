@@ -39,7 +39,7 @@ Having proper `width` and `height` values is mainly useful when drawing a center
 - trigger: sepcify when the decoration must be checked and drawn. This field can be either `begin` or `end`, defaults to `begin`. This is rarely useful to override.
 - expression: boolean expression to execute to fine-tune the decoration trigger. The default is none, a decoration is always drawn.
 - enabled: boolean, allows to create a disabled decoration that can be manually enabled later
-- decoId: give an identifier to the decoration, this is necessary to use the enable/disable mecanism
+- id: give an identifier to the decoration, this is necessary to use the enable/disable mecanism
 
 # Example
 Simple centered decoration at the bottom of each page, showing "current / total" page numbers:
@@ -58,7 +58,7 @@ items:
 The same decoration defined only for landscape pages (having the `a4_landscape` template) and disabled by default:
 ```
 type: decoration
-decoId: landscape_pagenums
+id: landscape_pagenums
 enabled: no
 expression: pageTemplate == "a4_landscape"
 items:
