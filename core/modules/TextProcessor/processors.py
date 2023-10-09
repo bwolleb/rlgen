@@ -48,6 +48,8 @@ def counterRef(engine, key, text=""):
 		text += " "
 	if "countersRef" not in engine.resources:
 		return False, ""
+	if key not in engine.resources["countersRef"]:
+		return False, ""
 	val = engine.resources["countersRef"][key]
 	formatted = text + str(val)
 	if "bookmarks" in engine.resources and key in engine.resources["bookmarks"]:
