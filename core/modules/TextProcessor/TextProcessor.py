@@ -4,8 +4,8 @@ from core.modules import ModuleInterface
 from core import utils
 from .processors import Processors
 
-markupRe = re.compile("{{\s*(.[a-z]*)\s*[(]\s*(.[-a-zA-Z0-9._\/\[\],%]*)?\s*[)]\s*}}")
-funcRe = re.compile("\s*(.[a-z]*)\s*[(]\s*(.[-a-zA-Z0-9._\/\[\],%]*)?\s*[)]\s*")
+markupRe = re.compile("{{\s*(.[a-z]*)\s*[(]\s*(.[-a-zA-Z0-9._\/\[\],% ]*)?\s*[)]\s*}}")
+funcRe = re.compile("\s*(.[a-z]*)\s*[(]\s*(.[-a-zA-Z0-9._\/\[\],% ]*)?\s*[)]\s*")
 
 class TextProcessor(ModuleInterface):
 	def __init__(self, engine, processors=[]):
