@@ -1,0 +1,17 @@
+color:
+  string: "0x738d32"
+  keyword: "0x456fb3"
+  comments: "0x4d4d4d"
+  number: "0xcd9f00"
+
+italic:
+  - comments
+bold:
+  - keyword
+
+match:
+  - ['(//[a-zA-Z0-9_\ \t\"#\＄%&\(\)\*\+,\-\.\/:;<=>\?@\[\\\]\^_{\|}~]+)[\n\r]', comments]
+  - ["('[a-zA-Z0-9\\_ \\t\\\"\\#\\＄\\%\\&\\(\\)\\*\\+\\,\\-\\.\\/\\:\\;\\<\\=\\>?@\\[\\]\\^\\_\\{\\|\\}~]+')", string]
+  - ['("[a-zA-Z0-9_\ \t\#\＄\%\&\(\)\*\+\,\-\.\/\:\;\<\=\>\?@\[\\\]\^_{\|}~]+")', string]
+  - ['\b(abstract|arguments|await|boolean|break|byte|case|catch|char|class|const|continue|debugger|default|delete|do|double|else|enum|eval|export|extends|false|final|finally|float|for|function|goto|if|implements|import|in|instanceof|int|interface|let|long|native|new|null|package|private|protected|public|return|short|static|super|switch|synchronized|this|throw|throws|transient|true|try|typeof|var|void|volatile|while|with|yield)\b', keyword]
+  - ['\b[0-9]+[.0-9]*\b', number]

@@ -1,0 +1,14 @@
+color:
+  keyword: "0x456fb3"
+  entity: "0xcd9f00"
+  string: "0x738d32"
+
+bold:
+  - keyword
+
+italic:
+  - entity
+
+match:
+  - ['\b(a|b|body|br|button|div|em|footer|form|frame|head|header|h1|h2|h3|h4|h5|h6|hr|html|i|iframe|img|input|label|li|meta|nav|ol|option|p|pre|script|section|select|source|span|strike|strong|style|sub|sup|table|tbody|td|textarea|th|thead|title|tr|u|ul|var|video)\b', keyword]
+  - ['("[a-zA-Z0-9_\ \t\#\＄\%\&\(\)\*\+\,\-\.\/\:\;\<\=\>\?@\[\\\]\^_{\|}~]+")', string]
